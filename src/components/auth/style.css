@@ -1,0 +1,9 @@
+.error {
+    border: 2px solid red;
+    font-weight: bold;
+}
+
+.mobile-entry-container {
+    background-color: aliceblue;
+
+}
