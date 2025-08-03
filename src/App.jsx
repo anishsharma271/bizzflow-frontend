@@ -6,7 +6,9 @@ const ScrollToTopButton = React.lazy(() => import('./services/scrollBar/scrollBa
 const ToastContainer = React.lazy(() => import('./services/toast/ToastCenterPopup.jsx'));
 const MobileEntry = React.lazy(() => import('./components/auth/mobileEntry.jsx'));
 const Home = React.lazy(() => import('./components/dashboard/home.jsx'));
+const CustomerHistory = React.lazy(() => import('./components/dashboard/customer/customerHistory.jsx'));
 const ProtectedRoute = React.lazy(() => import('./services/utils/protectedRoute.jsx'));
+import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
 
 function App() {
@@ -22,28 +24,30 @@ function App() {
   }, []);
 
   return (
+    <div className="App">
+      <Suspense fallback={<div style={{
+        display: "grid", justifyContent: "center", placeItems: "center", position: "absolute", left: "50%",
+        top: "50%"
+      }}><CircularProgress style={{ color: "#dc3545" }} /></div>}>
 
-    <Suspense fallback={<div style={{
-      display: "grid", justifyContent: "center", placeItems: "center", position: "absolute", left: "50%",
-      top: "50%"
-    }}><CircularProgress style={{ color: "#dc3545" }} /></div>}>
-
-      <ToastContainer />
-      <ScrollToTopButton />
-      {
-        token ? (
-          <div>
+        <ToastContainer />
+        <ScrollToTopButton />
+        {
+          token ? (
+            <div className='app-container'>
+              <Routes>
+                <Route path="/" element={<ProtectedRoute> < Home /> </ProtectedRoute>} />
+                <Route path="/customer/:id/history" element={<ProtectedRoute> < CustomerHistory /> </ProtectedRoute>} />
+              </Routes>
+            </div>
+          ) : (
             <Routes>
-              <Route path="/" element={<ProtectedRoute> < Home /> </ProtectedRoute>} />
+              <Route path="/" element={<MobileEntry setToken={setToken} />} />
             </Routes>
-          </div>
-        ) : (
-          <Routes>
-            <Route path="/" element={<MobileEntry setToken={setToken} />} />
-          </Routes>
-        )
-      }
-    </Suspense>
+          )
+        }
+      </Suspense>
+    </div>
   )
 }
 

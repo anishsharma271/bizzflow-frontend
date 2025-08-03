@@ -152,15 +152,7 @@ const MobileEntry = ({ setToken }) => {
         }
     }, [userData, data, setValue]);
 
-    const headerText = () => {
-        if (step === 1) {
-            return `From Supplies to Settlements - All in One Flow <strong style="font-size:1.8rem;font-weight:bold;color:red;">Bizz Flow</strong>`;
-        } else if (step === 2 && userData) {
-            return `Hi ${userData.full_name}`;
-        } else {
-            return 'Create your Account';
-        }
-    };
+
     return (
         <div
             style={{
